@@ -1,0 +1,32 @@
+PODS:
+  - DryFacebook-iOS (0.0.1):
+    - FBSDKLoginKit
+  - FBSDKCoreKit (5.5.0):
+    - FBSDKCoreKit/Basics (= 5.5.0)
+    - FBSDKCoreKit/Core (= 5.5.0)
+  - FBSDKCoreKit/Basics (5.5.0)
+  - FBSDKCoreKit/Core (5.5.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.5.0):
+    - FBSDKCoreKit (~> 5.0)
+
+DEPENDENCIES:
+  - DryFacebook-iOS (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+
+EXTERNAL SOURCES:
+  DryFacebook-iOS:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DryFacebook-iOS: 194ef35279387122104528b51f5f47e6ac93c271
+  FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
+  FBSDKLoginKit: bb28062f24e79590c44ba03297ca9bea4b6436d2
+
+PODFILE CHECKSUM: 510e9471348f260fc34df50b811bfa2adf52cd93
+
+COCOAPODS: 1.8.0.beta.2

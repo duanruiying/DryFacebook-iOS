@@ -1,0 +1,6 @@
+framework module Pods_DryFacebook_iOS_Example {
+  umbrella header "Pods-DryFacebook-iOS_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
