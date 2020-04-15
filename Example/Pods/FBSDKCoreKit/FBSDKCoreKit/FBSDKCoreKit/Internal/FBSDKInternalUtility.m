@@ -143,7 +143,12 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
     hostPrefix = [hostPrefix stringByAppendingString:@"."];
   }
 
-  NSString *host = @"facebook.com";
+  NSString *host =
+  [hostPrefix isEqualToString:@"graph."] &&
+  [[FBSDKAccessToken currentAccessToken].graphDomain isEqualToString:@"gaming"]
+  ? @"fb.gg"
+  : @"facebook.com";
+
   NSString *domainPart = [FBSDKSettings facebookDomainPart];
   if (domainPart.length) {
     host = [[NSString alloc] initWithFormat:@"%@.%@", domainPart, host];
@@ -486,26 +491,53 @@ static NSMapTable *_transientObjects;
 
 + (UIWindow *)findWindow
 {
-  UIWindow *window = [UIApplication sharedApplication].keyWindow;
-  if (window == nil || window.windowLevel != UIWindowLevelNormal) {
-    for (window in [UIApplication sharedApplication].windows) {
-      if (window.windowLevel == UIWindowLevelNormal) {
-        break;
+  UIWindow *topWindow = [UIApplication sharedApplication].keyWindow;
+  if (topWindow == nil || topWindow.windowLevel < UIWindowLevelNormal) {
+    for (UIWindow *window in [UIApplication sharedApplication].windows) {
+      if (window.windowLevel >= topWindow.windowLevel && !window.isHidden) {
+        topWindow = window;
       }
     }
   }
-  if (window == nil) {
-    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
-                       formatString:@"Unable to find a valid UIWindow", nil];
+
+  if (topWindow != nil) {
+    return topWindow;
   }
-  return window;
+
+  // Find active key window from UIScene
+  if (@available(iOS 13.0, tvOS 13, *)) {
+    NSSet *scenes = [[UIApplication sharedApplication] valueForKey:@"connectedScenes"];
+    for (id scene in scenes) {
+      id activationState = [scene valueForKeyPath:@"activationState"];
+      BOOL isActive = activationState != nil && [activationState integerValue] == 0;
+      if (isActive) {
+        Class WindowScene = NSClassFromString(@"UIWindowScene");
+        if ([scene isKindOfClass:WindowScene]) {
+          NSArray<UIWindow *> *windows = [scene valueForKeyPath:@"windows"];
+          for (UIWindow *window in windows) {
+            if (window.isKeyWindow) {
+              return window;
+            } else if (window.windowLevel >= topWindow.windowLevel && !window.isHidden) {
+              topWindow = window;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (topWindow == nil) {
+    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                     formatString:@"Unable to find a valid UIWindow", nil];
+  }
+  return topWindow;
 }
 
 + (UIViewController *)topMostViewController
 {
   UIWindow *keyWindow = [self findWindow];
   // SDK expects a key window at this point, if it is not, make it one
-  if (keyWindow !=  nil && !keyWindow.isKeyWindow) {
+  if (keyWindow != nil && !keyWindow.isKeyWindow) {
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
                        formatString:@"Unable to obtain a key window, marking %@ as keyWindow", keyWindow.description];
     [keyWindow makeKeyWindow];

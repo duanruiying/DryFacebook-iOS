@@ -1,20 +1,22 @@
 PODS:
   - DryFacebook-iOS (0.0.1):
     - FBSDKLoginKit
-  - FBSDKCoreKit (5.5.0):
-    - FBSDKCoreKit/Basics (= 5.5.0)
-    - FBSDKCoreKit/Core (= 5.5.0)
-  - FBSDKCoreKit/Basics (5.5.0)
-  - FBSDKCoreKit/Core (5.5.0):
+  - FBSDKCoreKit (6.3.0):
+    - FBSDKCoreKit/Basics (= 6.3.0)
+    - FBSDKCoreKit/Core (= 6.3.0)
+  - FBSDKCoreKit/Basics (6.3.0)
+  - FBSDKCoreKit/Core (6.3.0):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.5.0):
-    - FBSDKCoreKit (~> 5.0)
+  - FBSDKLoginKit (6.3.0):
+    - FBSDKLoginKit/Login (= 6.3.0)
+  - FBSDKLoginKit/Login (6.3.0):
+    - FBSDKCoreKit (~> 6.3.0)
 
 DEPENDENCIES:
   - DryFacebook-iOS (from `../`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - FBSDKCoreKit
     - FBSDKLoginKit
 
@@ -24,9 +26,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DryFacebook-iOS: 194ef35279387122104528b51f5f47e6ac93c271
-  FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
-  FBSDKLoginKit: bb28062f24e79590c44ba03297ca9bea4b6436d2
+  FBSDKCoreKit: 5d55c8f3007c9c49b793617b9102e46355fc7e17
+  FBSDKLoginKit: d46aa04d9bb9990a4deb6441736fae24a8c94496
 
-PODFILE CHECKSUM: 510e9471348f260fc34df50b811bfa2adf52cd93
+PODFILE CHECKSUM: e3824146ed8e0013283fcdbf14cee863c1605fb2
 
-COCOAPODS: 1.8.0.beta.2
+COCOAPODS: 1.9.1
